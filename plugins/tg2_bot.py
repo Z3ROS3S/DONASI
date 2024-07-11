@@ -55,13 +55,21 @@ async def send_to_channel(client: Client, user_id):
     content = data["content"]
     domisili = data["domisili"]
     pesan = data["pesan"]
+    media_message = data["media"]
 
     text = f"Jenis Kelamin: {gender}\nJenis Konten: {content}\nDomisili: {domisili}\nPesan: {pesan}"
     await client.send_message(CHANNEL_ID, text)
 
     # Generate a link to the media message
-    media_link = f"https://t.me/{client.username}?start=media_{data['media'].message_id}"
-    await client.send_message(CHANNEL_ID, f"Media Link: {media_link}")
+    media_message_id = media_message.message_id
+    media_link = f"https://t.me/{client.username}?start=media_{media_message_id}"
+    
+    # Create a button with the media link
+    reply_markup = InlineKeyboardMarkup([
+        [InlineKeyboardButton("View Media", url=media_link)]
+    ])
+    
+    await client.send_message(CHANNEL_ID, "Click the button below to view the media:", reply_markup=reply_markup)
 
     del user_data[user_id]
 
