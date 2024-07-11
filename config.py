@@ -5,6 +5,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pyrogram import Client, filters  # Ditambahkan
 from pyrogram.types import Message  # Ditambahkan
+
 try:
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
     TG_BOT_TOKEN_2 = os.environ.get("TG_BOT_TOKEN_2", "")  # Baris ini telah ditambahkan
@@ -18,12 +19,12 @@ try:
     FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "0"))
     TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
     START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
-except:
-    ADMINS=[]
+    
+    ADMINS = []
     for x in (os.environ.get("ADMINS", "").split()):
         ADMINS.append(int(x))
 except ValueError:
-        raise Exception("Your Admins list does not contain valid integers.")
+    raise Exception("Your Admins list does not contain valid integers.")
 
 FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to join in my Channel/Group to use me\n\nKindly Please join Channel</b>")
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
