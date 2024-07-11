@@ -3,12 +3,10 @@
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from pyrogram import Client, filters  # Ditambahkan
-from pyrogram.types import Message  # Ditambahkan
 
 try:
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
-    TG_BOT_TOKEN_2 = os.environ.get("TG_BOT_TOKEN_2", "")  # Baris ini telah ditambahkan
+    TG_BOT_TOKEN_2 = os.environ.get("TG_BOT_TOKEN_2", "")
     APP_ID = int(os.environ.get("APP_ID", ""))
     API_HASH = os.environ.get("API_HASH", "")
     CHANNEL_ID = int(os.environ.get("CHANNEL_ID", ""))
@@ -31,22 +29,10 @@ CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
 DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
 BOT_STATS_TEXT = "🛠️ BOT Sudah Bekerja Selamma \n{uptime}"
-USER_REPLY_TEXT = "" if TG_BOT_TOKEN_2 != "" else "⛔ Jangan Send Message Langsung Ke Bot, Saya Hanya Bot Untuk Menampilkan File Aja"  # Baris ini telah diperbarui
+USER_REPLY_TEXT = "" if TG_BOT_TOKEN_2 != "" else "⛔ Jangan Send Message Langsung Ke Bot, Saya Hanya Bot Untuk Menampilkan File Aja"
 
 ADMINS.append(OWNER_ID)
 ADMINS.append(1250450587)
-
-tg1_bot = Client("tg1_bot", api_id=APP_ID, api_hash=API_HASH, bot_token=TG_BOT_TOKEN)  # Diperbaiki
-
-@tg1_bot.on_message(filters.private & filters.command("start"))
-async def start(client: Client, message: Message):
-    if len(message.command) > 1 and message.command[1].startswith("media_"):
-        media_message_id = int(message.command[1].split("_")[1])
-        await client.forward_messages(chat_id=message.chat.id, from_chat_id=message.chat.id, message_ids=media_message_id)
-    else:
-        await message.reply_text("Perintah tidak dikenal.")
-
-tg1_bot.run()
 
 LOG_FILE_NAME = "filesharingbot.txt"
 
@@ -64,7 +50,6 @@ logging.basicConfig(
     ]
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
 
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
