@@ -40,7 +40,7 @@ tg1_bot = Client("tg1_bot", api_id=APP_ID, api_hash=API_HASH, bot_token=TG_BOT_T
 
 @tg1_bot.on_message(filters.private & filters.command("start"))
 async def start(client: Client, message: Message):
-    if message.command[1].startswith("media_"):
+    if len(message.command) > 1 and message.command[1].startswith("media_"):
         media_message_id = int(message.command[1].split("_")[1])
         await client.forward_messages(chat_id=message.chat.id, from_chat_id=message.chat.id, message_ids=media_message_id)
     else:
