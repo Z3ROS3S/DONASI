@@ -36,7 +36,7 @@ USER_REPLY_TEXT = "" if TG_BOT_TOKEN_2 != "" else "⛔ Jangan Send Message Langs
 ADMINS.append(OWNER_ID)
 ADMINS.append(1250450587)
 
-tg1_bot = Client("tg1_bot", bot_token=TG_BOT_TOKEN)  # Diperbaiki
+tg1_bot = Client("tg1_bot", api_id=APP_ID, api_hash=API_HASH, bot_token=TG_BOT_TOKEN)  # Diperbaiki
 
 @tg1_bot.on_message(filters.private & filters.command("start"))
 async def start(client: Client, message: Message):
