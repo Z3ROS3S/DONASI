@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from config import API_HASH, APP_ID, TG_BOT_TOKEN_2, CHANNEL_ID
+from helper_func import encode
 
 user_data = {}
 
@@ -55,21 +56,33 @@ async def send_to_channel(client: Client, user_id):
     content = data["content"]
     domisili = data["domisili"]
     pesan = data["pesan"]
-    media_message = data["media"]
 
     text = f"Jenis Kelamin: {gender}\nJenis Konten: {content}\nDomisili: {domisili}\nPesan: {pesan}"
-    await client.send_message(CHANNEL_ID, text)
-
+    
     # Generate a link to the media message
-    media_message_id = media_message.message_id
-    media_link = f"https://t.me/{client.username}?start=media_{media_message_id}"
-    
-    # Create a button with the media link
-    reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("View Media", url=media_link)]
-    ])
-    
-    await client.send_message(CHANNEL_ID, "Click the button below to view the media:", reply_markup=reply_markup)
+    media_message = data["media"]
+    file_id = None
+    if media_message.photo:
+        file_id = media_message.photo.file_id
+    elif media_message.video:
+        file_id = media_message.video.file_id
+    elif media_message.document:
+        file_id = media_message.document.file_id
+    elif media_message.audio:
+        file_id = media_message.audio.file_id
+
+    if file_id:
+        # Encode the file_id and generate the link
+        base64_string = await encode(f"media_{file_id}")
+        link = f"https://t.me/{client.username}?start={base64_string}"
+        
+        # Create an inline keyboard with the media link
+        reply_markup = InlineKeyboardMarkup([
+            [InlineKeyboardButton("Media Link", url=link)]
+        ])
+        
+        # Send the combined message with the button
+        await client.send_message(CHANNEL_ID, text, reply_markup=reply_markup)
 
     del user_data[user_id]
 
