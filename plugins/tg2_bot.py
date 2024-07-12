@@ -57,7 +57,7 @@ async def send_to_channel(client: Client, user_id):
     domisili = data["domisili"]
     pesan = data["pesan"]
 
-    text = f"Jenis Kelamin: {gender}\nJenis Konten: {content}\nDomisili: {domisili}\nPesan: {pesan}"
+    text = f"Hello Ada Donasi Dari Member Sinih\n Jenis Kelamin: {gender}\n Jenis Konten: {content}\n Domisili: {domisili}\n Pesan: {pesan}"
     
     # Generate a link to the media message
     media_message = data["media"]
@@ -74,11 +74,16 @@ async def send_to_channel(client: Client, user_id):
     if file_id:
         # Encode the file_id and generate the link
         base64_string = await encode(f"media_{file_id}")
-        link = f"https://t.me/{client.username}?start={base64_string}"
+        
+        # Get bot username
+        bot_info = await client.get_me()
+        bot_username = bot_info.username
+        
+        link = f"https://t.me/{bot_username}?start={base64_string}"
         
         # Create an inline keyboard with the media link
         reply_markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Media Link", url=link)]
+            [InlineKeyboardButton("Check", url=link)]
         ])
         
         # Send the combined message with the button
