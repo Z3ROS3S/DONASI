@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+rom pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from config import API_HASH, APP_ID, TG_BOT_TOKEN_2, CHANNEL_ID
 from helper_func import encode
@@ -57,7 +57,7 @@ async def send_to_channel(client: Client, user_id):
     domisili = data["domisili"]
     pesan = data["pesan"]
 
-    text = f"Hello Ada Donasi Dari Member Sinih\n Jenis Kelamin: {gender}\n Jenis Konten: {content}\n Domisili: {domisili}\n Pesan: {pesan}"
+    text = f"Jenis Kelamin: {gender}\nJenis Konten: {content}\nDomisili: {domisili}\nPesan: {pesan}"
     
     # Generate a link to the media message
     media_message = data["media"]
@@ -83,7 +83,7 @@ async def send_to_channel(client: Client, user_id):
         
         # Create an inline keyboard with the media link
         reply_markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Check", url=link)]
+            [InlineKeyboardButton("Media Link", url=link)]
         ])
         
         # Send the combined message with the button
